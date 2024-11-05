@@ -1,0 +1,70 @@
+/*create database hortifruti;*/
+/*use hortifruti;*/
+
+CREATE TABLE FUNCIONARIOS(
+	ID INT AUTO_INCREMENT PRIMARY KEY,
+    NOME VARCHAR(70) NOT NULL,
+    IDADE INT NOT NULL,
+    TELEFONE VARCHAR(20) UNIQUE NOT NULL,
+    CARGO VARCHAR(40) NOT NULL,
+    SALARIO FLOAT NOT NULL
+);
+
+CREATE TABLE CREDENCIAIS_ACESSO(
+	ID INT PRIMARY KEY,
+    LOGIN VARCHAR(30) UNIQUE NOT NULL,
+    SENHA VARCHAR(30) NOT NULL,
+    FOREIGN KEY (ID) REFERENCES FUNCIONARIOS(ID)
+);
+
+CREATE TABLE PRODUTOS(
+	CODE INT UNIQUE NOT NULL,
+    NOME VARCHAR(40) NOT NULL,
+    VALOR_KG FLOAT NOT NULL
+);
+
+INSERT INTO FUNCIONARIOS (NOME, IDADE, TELEFONE, CARGO, SALARIO)
+VALUES ('João Costas da Silva', 35, '(11) 94337-8598', 'Dono', 4200.00),
+('Clarice Mercedes Rodrigues', 21, '(11) 94372-9912', 'Recursos Humanos', 2230.00),
+('Fernanda De Fátima Andrade', 26, '(11) 94310-0772','Admnistração', 2120.00),
+('Pablo Pereira Mendes', 27, '(11) 96522-1923','Estoquista/Repositor', 1515.00),
+('Eduardo Ferreira', 19, '(11) 91142-9248', 'Caixa', 1412.00),
+('Emily Cardoso Nobrega', 21, '(11) 95772-9211','Caixa',1412.00);
+
+INSERT INTO CREDENCIAIS_ACESSO (ID, LOGIN, SENHA)
+VALUES (1,'Joao_socio', 'Joao_DonoSenha'),
+(2,'Clari_RH','21_SenhaClariRH'),
+(3,'Fernanda_ADM','Fer_AdmAcesso');
+
+INSERT INTO PRODUTOS (CODE, NOME, VALOR_KG)
+VALUES (47562,'Banana', 4.80),
+(22984,'Cenoura',2.40),
+(29008,'Abacate',10.32),
+(23114,'Beterraba',2.10),
+(24321,'Couve', 4.57),
+(29011,'Laranja-Pera',4.05);
+
+
+SELECT*FROM PRODUTOS;
+SELECT*FROM FUNCIONARIOS;
+SELECT*FROM CREDENCIAIS_ACESSO;
+
+DROP TABLES FUNCIONARIOS, CREDENCIAIS_ACESSO;
+
+DROP TABLE PRODUTOS;
+
+
+
+
+
+
+
+
+
+
+  
+    
+    
+    
+    
+
