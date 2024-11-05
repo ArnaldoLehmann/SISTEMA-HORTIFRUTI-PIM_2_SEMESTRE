@@ -1,5 +1,5 @@
-/*create database hortifruti;*/
-/*use hortifruti;*/
+create database hortifruti;
+use hortifruti;
 
 CREATE TABLE FUNCIONARIOS(
 	ID INT AUTO_INCREMENT PRIMARY KEY,
