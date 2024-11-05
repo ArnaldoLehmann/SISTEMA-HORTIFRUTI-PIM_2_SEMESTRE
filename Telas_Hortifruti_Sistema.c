@@ -8,12 +8,12 @@ char* senhas[3]; // Array para armazenar 3 senhas
 char* logins[3]; // Array para os logins
 int count = 0;
 
-void setConsoleColors(int textColor, int bgColor) { // Função para mudar a cor do texto e fundo no console
+void setConsoleColors(int textColor, int bgColor) { // FunÃ§Ã£o para mudar a cor do texto e fundo no console
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, (WORD)((bgColor << 4) | textColor));
 }
 
-void PuxarCredenciais(MYSQL* conn) { // Função para puxar as credenciais do banco de dados
+void PuxarCredenciais(MYSQL* conn) { // FunÃ§Ã£o para puxar as credenciais do banco de dados
     MYSQL_RES* res;
     MYSQL_ROW row;
 
@@ -28,7 +28,7 @@ void PuxarCredenciais(MYSQL* conn) { // Função para puxar as credenciais do banc
     mysql_free_result(res);
 }
 
-int teste_de_login(char login[31]) { // Função para testar a igualdade dos logins inseridos com os armazenados no banco de dados
+int teste_de_login(char login[31]) { // FunÃ§Ã£o para testar a igualdade dos logins inseridos com os armazenados no banco de dados
     for (int i = 0; i < count; i++) {
         if (strcmp(login, logins[i]) == 0) {
             return 1; // Login aprovado
@@ -37,7 +37,7 @@ int teste_de_login(char login[31]) { // Função para testar a igualdade dos login
     return 0; // Login reprovado
 }
 
-int teste_de_senha(char senha[31]) { // Função para testar a igualdade das senhas inseridas com as armazenadas no banco de dados
+int teste_de_senha(char senha[31]) { // FunÃ§Ã£o para testar a igualdade das senhas inseridas com as armazenadas no banco de dados
     for (int i = 0; i < count; i++) {
         if (strcmp(senha, senhas[i]) == 0) {
             return 1; // Senha aprovada
@@ -46,7 +46,7 @@ int teste_de_senha(char senha[31]) { // Função para testar a igualdade das senha
     return 0; // Senha reprovada
 }
 
-void ParaMinúsculas(char s1[]) { // Transforma uma string em minúscula
+void ParaMinÃºsculas(char s1[]) { // Transforma uma string em minÃºscula
     int i = 0;
     while (s1[i] != '\0') {
         s1[i] = tolower(s1[i]);
@@ -54,7 +54,7 @@ void ParaMinúsculas(char s1[]) { // Transforma uma string em minúscula
     }
 }
 
-void PuxarCódigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus valores e códigos do banco de dados
+void PuxarCÃ³digoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus valores e cÃ³digos do banco de dados
     MYSQL_ROW row;
     MYSQL_RES* res;
 
@@ -69,8 +69,8 @@ void PuxarCódigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus v
         return;
     }
 
-    // Imprimir cabeçalhos das colunas
-    printf("%-10s %-15s %-10s\n", "CÓDIGO", "NOME", "VALOR_KG");
+    // Imprimir cabeÃ§alhos das colunas
+    printf("%-10s %-15s %-10s\n", "CÃ“DIGO", "NOME", "VALOR_KG");
 
     // Imprimir linhas de dados
     while ((row = mysql_fetch_row(res))) {
@@ -80,14 +80,14 @@ void PuxarCódigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus v
     mysql_free_result(res);
 }
 
-void MostrarMenu() { // Função para mostrar o menu inicial
+void MostrarMenu() { // FunÃ§Ã£o para mostrar o menu inicial
     setConsoleColors(14, 0);
     printf("--------------SISTEMA HORTIFRUTI---------------\n");
-    printf("Escolha uma opção do sistema \n");
+    printf("Escolha uma opÃ§Ã£o do sistema \n");
     setConsoleColors(15, 0);
     printf("[COMPRA]: Para passar os produtos\n");
-    printf("[ADICIONAR PRODUTO]: Para adicionar um produto no sistema (*Apenas Funcionários Permitidos*)\n");
-    printf("[ADICIONAR FUNCIONÁRIO]: Para adicionar um funcionário no sistema (*Apenas funcionários permitidos*)\n");
+    printf("[ADICIONAR PRODUTO]: Para adicionar um produto no sistema (*Apenas FuncionÃ¡rios Permitidos*)\n");
+    printf("[ADICIONAR FUNCIONÃRIO]: Para adicionar um funcionÃ¡rio no sistema (*Apenas funcionÃ¡rios permitidos*)\n");
     printf("[FINALIZAR SISTEMA]: Para encerrar o sistema digite 'encerrar' \n");
 }
 
@@ -104,7 +104,7 @@ int main() {
     conn = mysql_init(NULL);
 
     if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0)) {
-        fprintf(stderr, "Erro na conexão: %s\n", mysql_error(conn));
+        fprintf(stderr, "Erro na conexÃ£o: %s\n", mysql_error(conn));
         exit(1);
     }
 
@@ -131,23 +131,23 @@ int main() {
         fflush(stdin);
         scanf_s("%14s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
         printf("\n");
-        ParaMinúsculas(selecionar_opcao);
+        ParaMinÃºsculas(selecionar_opcao);
 
         if (strcmp(selecionar_opcao, "compra") == 0) {
             system("cls");
             setConsoleColors(14, 0);
-            printf("----------ESTAÇÃO DE COMPRA---------     [DIGITE 'RETORNAR' PARA VOLTAR]\n");
+            printf("----------ESTAÃ‡ÃƒO DE COMPRA---------     [DIGITE 'RETORNAR' PARA VOLTAR]\n");
             printf("                                         [DIGITE 'PAGAMENTO' PARA IR AO PAGAMENTO]\n");
-            PuxarCódigoeProdutos(conn);
+            PuxarCÃ³digoeProdutos(conn);
            
 
             do {
                 setConsoleColors(15, 0);
                 printf("\n");
-                printf("Digite o código do produto:\n");
+                printf("Digite o cÃ³digo do produto:\n");
                 fflush(stdin);
                 scanf_s("%19s", selecionar_produto, (unsigned)_countof(selecionar_produto));
-                ParaMinúsculas(selecionar_produto);
+                ParaMinÃºsculas(selecionar_produto);
 
                 if (strcmp(selecionar_produto, "retornar") == 0) {
                     printf("Retornando ao menu principal...\n");
@@ -159,15 +159,15 @@ int main() {
                     printf("VALOR TOTAL DA COMPRA: R$% .2F\n\n", total_final);
                     printf("Escolha a forma de pagamento: \n");
                     setConsoleColors(14, 0);
-                    printf("[DÉBITO]\n[CRÉDITO]\n[DINHEIRO]\n");
+                    printf("[DÃ‰BITO]\n[CRÃ‰DITO]\n[DINHEIRO]\n");
                     fflush(stdin);
                     scanf_s("%14s", forma_pagamento, (unsigned)_countof(forma_pagamento));
-                    ParaMinúsculas(forma_pagamento);
+                    ParaMinÃºsculas(forma_pagamento);
 
-                    if (strcmp(forma_pagamento, "débito") == 0 || strcmp(forma_pagamento, "debito") == 0) {
+                    if (strcmp(forma_pagamento, "dÃ©bito") == 0 || strcmp(forma_pagamento, "debito") == 0) {
                         printf("\n");
                         setConsoleColors(15, 0);
-                        printf("Débito selecionado:\nDigite sua senha:\n");
+                        printf("DÃ©bito selecionado:\nDigite sua senha:\n");
                         fflush(stdin);
                         scanf_s("%d", &senha_cartao);
                         setConsoleColors(10, 0);
@@ -177,10 +177,10 @@ int main() {
                         exit(0);
                         
                     }
-                    else if (strcmp(forma_pagamento, "crédito") == 0 || strcmp(forma_pagamento, "credito") == 0) {
+                    else if (strcmp(forma_pagamento, "crÃ©dito") == 0 || strcmp(forma_pagamento, "credito") == 0) {
                         printf("\n");
                         setConsoleColors(15, 0);
-                        printf("Crédito selecionado:\nDigite sua senha:\n");
+                        printf("CrÃ©dito selecionado:\nDigite sua senha:\n");
                         fflush(stdin);
                         scanf_s("%d", &senha_cartao);
                         setConsoleColors(10, 0);
@@ -192,7 +192,7 @@ int main() {
                     }
                     else if (strcmp(forma_pagamento, "dinheiro") == 0) {
                         setConsoleColors(15, 0);
-                        printf("Digite quanto entregou, para o cálculo do troco:\n");
+                        printf("Digite quanto entregou, para o cÃ¡lculo do troco:\n");
                         fflush(stdin);
                         scanf_s("%f", &dinheiro_entregue);
                         troco = dinheiro_entregue - total_final;
@@ -261,7 +261,7 @@ int main() {
                 }
                 else {
                     setConsoleColors(4, 0);
-                    printf("Produto não encontrado\n");
+                    printf("Produto nÃ£o encontrado\n");
                     setConsoleColors(15, 0);
                 }
 
@@ -272,7 +272,7 @@ int main() {
             printf("Sistema finalizado.\n");
             break;
         }
-        else if(strcmp(selecionar_opcao,"adicionar produto")==0) {
+        else if(strcmp(selecionar_opcao,"adicionar produto")==0) {//Adicione aqui bloco de comandos de adicionar produto
 
         }
     } while (1);
