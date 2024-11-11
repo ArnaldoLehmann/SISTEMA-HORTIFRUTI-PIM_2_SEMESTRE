@@ -1,5 +1,16 @@
-//IMPORTANTE!!: Para o funcionamento desse código, é necessário instalar o MYSQL WORKBENCH (utilizada 8.0 CE), MYSQL SERVER e MYSQL CONECTOR C, e assim realizar a conexão dos diretorios de LIB E INCLUDE do myslq server
-// na IDE que será utlizada para compilar e executar o sistema
+/* 
+PROJETO IINTEGRADO MULTIDISCIPLINAR UNIP - MARQUÊS
+ADS 2° SEMESTRE - SISTEMA DE MODERNIZAÇÃO DE UM SISTEMA DE HORTIFRUTI
+GRUPO : G870344 - ANDRÉ LUIZ PEREIRA DA COSTA
+        F358887 - ARNALDO ANTÔNIO LEHMANN NETO
+        R0522F0 - GABRIEL AUGUSTO MUNIZ LARANGEIRA
+        G991168 - GUILHERME JÚLIO RIBEIRO MÜLLER
+        G812FC3 - LUCAS HENRIQUE SILVA
+        F3586A3 - PEDRO JOSÉ DA SILVA BRISQUE 
+*/
+
+/* IMPORTANTE!!: Para o funcionamento desse código, é necessário instalar o MYSQL WORKBENCH (utilizada 8.0 CE), MYSQL SERVER e MYSQL CONECTOR C, e assim realizar a conexão dos diretorios de LIB E INCLUDE do myslq server
+ na IDE que será utlizada para compilar e executar o sistema */
 
 #include <windows.h>
 #include <stdio.h>
