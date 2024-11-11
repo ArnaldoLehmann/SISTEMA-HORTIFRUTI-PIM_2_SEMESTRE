@@ -1,3 +1,6 @@
+//IMPORTANTE!!: Para o funcionamento desse c√≥digo, √© necess√°rio instalar o MYSQL WORKBENCH (utilizada 8.0 CE), MYSQL SERVER e MYSQL CONECTOR C, e assim realizar a conex√£o dos diretorios de LIB E INCLUDE do myslq server
+// na IDE que ser√° utlizada para compilar e executar o sistema
+
 #include <windows.h>
 #include <stdio.h>
 #include <mysql.h>
@@ -10,12 +13,12 @@ char* senhas[3]; // Array para armazenar 3 senhas
 char* logins[3]; // Array para os logins
 int count = 0;
 
-void setConsoleColors(int textColor, int bgColor) { // FunÁ„o para mudar a cor do texto e fundo no console
+void setConsoleColors(int textColor, int bgColor) { // Fun√ß√£o para mudar a cor do texto e fundo no console
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hConsole, (WORD)((bgColor << 4) | textColor));
 }
 
-void PuxarCredenciais(MYSQL* conn) { // FunÁ„o para puxar as credenciais do banco de dados
+void PuxarCredenciais(MYSQL* conn) { // Fun√ß√£o para puxar as credenciais do banco de dados
     MYSQL_RES* res;
     MYSQL_ROW row;
 
@@ -30,7 +33,7 @@ void PuxarCredenciais(MYSQL* conn) { // FunÁ„o para puxar as credenciais do banc
     mysql_free_result(res);
 }
 
-int teste_de_login(char login[31]) { // FunÁ„o para testar a igualdade dos logins inseridos com os armazenados no banco de dados
+int teste_de_login(char login[31]) { // Fun√ß√£o para testar a igualdade dos logins inseridos com os armazenados no banco de dados
     for (int i = 0; i < count; i++) {
         if (strcmp(login, logins[i]) == 0) {
             return 1; // Login aprovado
@@ -39,7 +42,7 @@ int teste_de_login(char login[31]) { // FunÁ„o para testar a igualdade dos login
     return 0; // Login reprovado
 }
 
-int teste_de_senha(char senha[31]) { // FunÁ„o para testar a igualdade das senhas inseridas com as armazenadas no banco de dados
+int teste_de_senha(char senha[31]) { // Fun√ß√£o para testar a igualdade das senhas inseridas com as armazenadas no banco de dados
     for (int i = 0; i < count; i++) {
         if (strcmp(senha, senhas[i]) == 0) {
             return 1; // Senha aprovada
@@ -48,7 +51,7 @@ int teste_de_senha(char senha[31]) { // FunÁ„o para testar a igualdade das senha
     return 0; // Senha reprovada
 }
 
-void ParaMin˙sculas(char s1[]) { // Transforma uma string em min˙scula
+void ParaMin√∫sculas(char s1[]) { // Transforma uma string em min√∫scula
     int i = 0;
     while (s1[i] != '\0') {
         s1[i] = tolower(s1[i]);
@@ -56,7 +59,7 @@ void ParaMin˙sculas(char s1[]) { // Transforma uma string em min˙scula
     }
 }
 
-void PuxarCÛdigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus valores e cÛdigos do banco de dados
+void PuxarC√≥digoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus valores e c√≥digos do banco de dados
     MYSQL_ROW row;
     MYSQL_RES* res;
 
@@ -71,8 +74,8 @@ void PuxarCÛdigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus v
         return;
     }
 
-    // Imprimir cabeÁalhos das colunas
-    printf("%-10s %-15s %-10s\n", "C”DIGO", "NOME", "VALOR_KG");
+    // Imprimir cabe√ßalhos das colunas
+    printf("%-10s %-15s %-10s\n", "C√ìDIGO", "NOME", "VALOR_KG");
 
     // Imprimir linhas de dados
     while ((row = mysql_fetch_row(res))) {
@@ -99,8 +102,8 @@ void PuxarFuncionarios(MYSQL* conn) {
         return;
     }
 
-    // Imprimir cabeÁalhos das colunas
-    printf("%-10s %-30s %-10s %-20s %-25s %-10s\n", "ID", "NOME", "IDADE", "TELEFONE", "CARGO", "SAL¡RIO");
+    // Imprimir cabe√ßalhos das colunas
+    printf("%-10s %-30s %-10s %-20s %-25s %-10s\n", "ID", "NOME", "IDADE", "TELEFONE", "CARGO", "SAL√ÅRIO");
 
     // Imprimir linhas de dados
     while ((row = mysql_fetch_row(res))) {
@@ -113,14 +116,14 @@ void PuxarFuncionarios(MYSQL* conn) {
 
 
 
-void MostrarMenu() { // FunÁ„o para mostrar o menu inicial
+void MostrarMenu() { // Fun√ß√£o para mostrar o menu inicial
     setConsoleColors(14, 0);
     printf("--------------SISTEMA HORTIFRUTI---------------\n");
-    printf("Escolha uma opÁ„o do sistema \n");
+    printf("Escolha uma op√ß√£o do sistema \n");
     setConsoleColors(15, 0);
     printf("[COMPRA]: Para passar os produtos\n");
-    printf("[PRODUTOS]: Para adicionar um produto no sistema (*Apenas Funcion·rios Permitidos*)\n");
-    printf("[FUNCION¡RIOS]: Para adicionar um funcion·rio no sistema (*Apenas funcion·rios permitidos*)\n");
+    printf("[PRODUTOS]: Para adicionar um produto no sistema (*Apenas Funcion√°rios Permitidos*)\n");
+    printf("[FUNCION√ÅRIOS]: Para adicionar um funcion√°rio no sistema (*Apenas funcion√°rios permitidos*)\n");
     printf("[ENCERRAR]: Para encerrar o sistema digite\n");
 }
 
@@ -137,7 +140,7 @@ int main() {
     conn = mysql_init(NULL);
 
     if (!mysql_real_connect(conn, server, user, password, database, 0, NULL, 0)) {
-        fprintf(stderr, "Erro na conex„o: %s\n", mysql_error(conn));
+        fprintf(stderr, "Erro na conex√£o: %s\n", mysql_error(conn));
         exit(1);
     }
 
@@ -162,7 +165,7 @@ int main() {
   
     int codigo;
     char nome_produto[30];
-    float preÁo_kg = 0;
+    float pre√ßo_kg = 0;
     char query[256];
     
     do {
@@ -173,19 +176,19 @@ int main() {
         MostrarMenu();  
         fflush(stdin);  
         scanf_s("%14s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
-        ParaMin˙sculas(selecionar_opcao);
+        ParaMin√∫sculas(selecionar_opcao);
 
         if (strcmp(selecionar_opcao, "compra") == 0) {  
             system("cls");
             setConsoleColors(14, 0);
-            printf("----------ESTA«√O DE COMPRA---------     [DIGITE 'RETORNAR' PARA VOLTAR]\n");
+            printf("----------ESTA√á√ÉO DE COMPRA---------     [DIGITE 'RETORNAR' PARA VOLTAR]\n");
             printf("                                         [DIGITE 'PAGAMENTO' PARA IR AO PAGAMENTO]\n");
-            PuxarCÛdigoeProdutos(conn);  
+            PuxarC√≥digoeProdutos(conn);  
 
             do {
                 setConsoleColors(15, 0);
                 printf("\n");
-                printf("Digite o cÛdigo do produto:\n");
+                printf("Digite o c√≥digo do produto:\n");
                 fflush(stdin);  
                 scanf_s("%19s", selecionar_produto, (unsigned)_countof(selecionar_produto));  
 
@@ -200,16 +203,16 @@ int main() {
                     printf("VALOR TOTAL DA COMPRA: R$% .2F\n\n", total_final);
                     printf("Escolha a forma de pagamento: \n");
                     setConsoleColors(14, 0);
-                    printf("[D…BITO]\n[CR…DITO]\n[DINHEIRO]\n");
+                    printf("[D√âBITO]\n[CR√âDITO]\n[DINHEIRO]\n");
                     fflush(stdin);
                     scanf_s("%14s", forma_pagamento, (unsigned)_countof(forma_pagamento));
-                    ParaMin˙sculas(forma_pagamento);
+                    ParaMin√∫sculas(forma_pagamento);
 
-                    if (strcmp(forma_pagamento, "dÈbito") == 0 || strcmp(forma_pagamento, "debito") == 0) {
+                    if (strcmp(forma_pagamento, "d√©bito") == 0 || strcmp(forma_pagamento, "debito") == 0) {
                         system("cls");
                         printf("\n");
                         setConsoleColors(15, 0);
-                        printf("DÈbito selecionado:\nDigite sua senha:\n");
+                        printf("D√©bito selecionado:\nDigite sua senha:\n");
                         fflush(stdin);
                         scanf_s("%d", &senha_cartao);
                         setConsoleColors(10, 0);
@@ -219,11 +222,11 @@ int main() {
                         exit(0);
 
                     }
-                    else if (strcmp(forma_pagamento, "crÈdito") == 0 || strcmp(forma_pagamento, "credito") == 0) {
+                    else if (strcmp(forma_pagamento, "cr√©dito") == 0 || strcmp(forma_pagamento, "credito") == 0) {
                         system("cls");
                         printf("\n");
                         setConsoleColors(15, 0);
-                        printf("CrÈdito selecionado:\nDigite sua senha:\n");
+                        printf("Cr√©dito selecionado:\nDigite sua senha:\n");
                         fflush(stdin);
                         scanf_s("%d", &senha_cartao);
                         setConsoleColors(10, 0);
@@ -236,7 +239,7 @@ int main() {
                     else if (strcmp(forma_pagamento, "dinheiro") == 0) {
                         system("cls");
                         setConsoleColors(15, 0);
-                        printf("Digite quanto entregou, para o c·lculo do troco:\n");
+                        printf("Digite quanto entregou, para o c√°lculo do troco:\n");
                         fflush(stdin);
                         scanf_s("%f", &dinheiro_entregue);
                         troco = dinheiro_entregue - total_final;
@@ -284,9 +287,9 @@ int main() {
                     
                     strcpy_s(nome_produto, sizeof(nome_produto), row[0]);
 
-                    preÁo_kg = atof(row[1]);  
+                    pre√ßo_kg = atof(row[1]);  
 
-                    preÁo_kg = round(preÁo_kg * 100) / 100.0;
+                    pre√ßo_kg = round(pre√ßo_kg * 100) / 100.0;
 
                     setlocale(LC_NUMERIC, "Portuguese_Brazil");
 
@@ -294,12 +297,12 @@ int main() {
                     scanf_s("%f", &quantidade_produto);  
 
                   
-                    valor_compra = round(preÁo_kg * quantidade_produto * 100) / 100;  
+                    valor_compra = round(pre√ßo_kg * quantidade_produto * 100) / 100;  
                     total_final += valor_compra;
 
                 }
                 else {
-                    printf("Produto n„o encontrado.\n");  
+                    printf("Produto n√£o encontrado.\n");  
                 }
 
             } while (1);  
@@ -330,13 +333,13 @@ int main() {
                     system("cls");
                     setConsoleColors(14, 0);
                     printf("-------------PRODUTOS ATUAIS------------\n");
-                    PuxarCÛdigoeProdutos(conn);
+                    PuxarC√≥digoeProdutos(conn);
                     printf("\n");
                     do {
                         setConsoleColors(14, 0);
                         printf("----------ADICIONAR NOVOS PRODUTOS?------------\nDigite 'S' para adicionar e 'N' para retornar ao menu\n");
                         scanf_s("%2s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
-                        ParaMin˙sculas(selecionar_opcao);
+                        ParaMin√∫sculas(selecionar_opcao);
                         setConsoleColors(15, 0);
 
                         if (strcmp(selecionar_opcao, "s") == 0) {
@@ -345,13 +348,13 @@ int main() {
                             char nome_produto[50];
                             float preco_kg;
 
-                            printf("Digite o cÛdigo do produto que deseja adicionar:\n");
+                            printf("Digite o c√≥digo do produto que deseja adicionar:\n");
                             scanf_s("%d", &codigo);
                             printf("Digite o nome do produto que deseja adicionar:\n");
                             scanf_s("%49s", nome_produto, (unsigned)_countof(nome_produto));
                             char* locale_atual = setlocale(LC_NUMERIC, NULL);
                             setlocale(LC_NUMERIC, "C");
-                            printf("Digite o preÁo por KG do produto que deseja adicionar(utilize '.' ao invÈs de ','):\n");
+                            printf("Digite o pre√ßo por KG do produto que deseja adicionar(utilize '.' ao inv√©s de ','):\n");
                             scanf_s("%f", &preco_kg);
                             snprintf(query, sizeof(query), "INSERT INTO PRODUTOS (CODE, NOME, VALOR_KG) VALUES (%d, '%s', %.2f)", codigo, nome_produto, preco_kg);
                             setlocale(LC_NUMERIC, locale_atual);
@@ -370,7 +373,7 @@ int main() {
                             limite = 3;
                         }
                         else {
-                            printf("OpÁ„o n„o indentificada: Digite novamente\n");
+                            printf("Op√ß√£o n√£o indentificada: Digite novamente\n");
                             system("pause");
                             limite = 2;
                         }
@@ -384,14 +387,14 @@ int main() {
                     if (limite == 0) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("2 TENTATIVAS RESTANTES POR SEGURAN«A\n");
+                        printf("2 TENTATIVAS RESTANTES POR SEGURAN√áA\n");
                         limite++;
                         system("pause");
                     }
                     else if (limite == 1) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN«A!!\n");
+                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN√áA!!\n");
                         limite++;
                         system("pause");
                     }
@@ -410,14 +413,14 @@ int main() {
                     if (limite == 0) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("2 TENTATIVAS RESTANTES POR SEGURAN«A\n");
+                        printf("2 TENTATIVAS RESTANTES POR SEGURAN√áA\n");
                         limite++;
                         system("pause");
                     }
                     else if (limite == 1) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN«A!!\n");
+                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN√áA!!\n");
                         limite++;
                         system("pause");
                     }
@@ -436,14 +439,14 @@ int main() {
                     if (limite == 0) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("2 TENTATIVAS RESTANTES POR SEGURAN«A\n");
+                        printf("2 TENTATIVAS RESTANTES POR SEGURAN√áA\n");
                         limite++;
                         system("pause");
                     }
                     else if (limite == 1) {
                         setConsoleColors(14, 0);
                         printf("----------------TENTE NOVAMENTE------------------\n");
-                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN«A!!\n");
+                        printf("!! 1 TENTATIVA RESTANTE POR SEGURAN√áA!!\n");
                         limite++;
                         system("pause");
                     }
@@ -461,7 +464,7 @@ int main() {
 
 
         }
-            else if (strcmp(selecionar_opcao, "funcionarios") == 0 || strcmp(selecionar_opcao,"funcion·rios") == 0) {
+            else if (strcmp(selecionar_opcao, "funcionarios") == 0 || strcmp(selecionar_opcao,"funcion√°rios") == 0) {
                 do {
                     system("cls");
                     setConsoleColors(15, 0);
@@ -490,9 +493,9 @@ int main() {
                         printf("\n");
                         do {
                             setConsoleColors(14, 0);
-                            printf("----------ADICIONAR NOVOS FUNCION¡RIOS------------\nDigite 'S' para adicionar e 'N' para retornar ao menu\n");
+                            printf("----------ADICIONAR NOVOS FUNCION√ÅRIOS------------\nDigite 'S' para adicionar e 'N' para retornar ao menu\n");
                             scanf_s("%2s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
-                            ParaMin˙sculas(selecionar_opcao);
+                            ParaMin√∫sculas(selecionar_opcao);
                             setConsoleColors(15, 0);
 
                             if (strcmp(selecionar_opcao, "s") == 0) {
@@ -513,23 +516,23 @@ int main() {
                                     continue;
                                 }
 
-                                printf("Digite o nome do funcion·rio que deseja adicionar:\n");
+                                printf("Digite o nome do funcion√°rio que deseja adicionar:\n");
                                 scanf_s(" %[^\n]s", nome, (unsigned)_countof(nome));
                                 printf("\n");
-                                printf("Digite a idade do funcion·rio:\n");
+                                printf("Digite a idade do funcion√°rio:\n");
                                 scanf_s("%d", &idade);
                                 while (getchar() != '\n');
                                 printf("\n");
-                                printf("Digite o telefone do funcion·rio:\n");
+                                printf("Digite o telefone do funcion√°rio:\n");
                                 scanf_s(" %[^\n]s", telefone, (unsigned)_countof(telefone));
                                 printf("\n");
-                                printf("Digite o cargo do funcion·rio:\n");
+                                printf("Digite o cargo do funcion√°rio:\n");
                                 scanf_s(" %[^\n]s", cargo, (unsigned)_countof(cargo));
 
                                 char* locale_atual = setlocale(LC_NUMERIC, NULL);
                                 setlocale(LC_NUMERIC, "C");
                                 printf("\n");
-                                printf("Digite o sal·rio do funcion·rio (utilize '.' ao invÈs de ','):\n");
+                                printf("Digite o sal√°rio do funcion√°rio (utilize '.' ao inv√©s de ','):\n");
                                 scanf_s("%f", &salario);
                                 while (getchar() != '\n');
 
@@ -544,7 +547,7 @@ int main() {
                                     system("pause");
                                     continue;
                                 }
-                                    printf("Funcion·rio adicionado com sucesso!!\n");
+                                    printf("Funcion√°rio adicionado com sucesso!!\n");
                                     system("pause");
                                     limite = 3;
                                 
@@ -563,7 +566,7 @@ int main() {
                             printf("Login incorreto: \n");
                             setConsoleColors(14, 0);
                             printf("----------------TENTE NOVAMENTE------------------\n");
-                            printf("2 TENTATIVAS RESTANTES POR SEGURAN«A \n");
+                            printf("2 TENTATIVAS RESTANTES POR SEGURAN√áA \n");
                             limite++;
                             system("pause");
                         }else if (limite == 1) {
@@ -571,7 +574,7 @@ int main() {
                             printf("Login incorreto: \n");
                             setConsoleColors(14, 0);
                             printf("----------------TENTE NOVAMENTE------------------\n");
-                            printf("!! 1 TENTATIVA RESTANTES POR SEGURAN«A !!\n");
+                            printf("!! 1 TENTATIVA RESTANTES POR SEGURAN√áA !!\n");
                             limite++;
                             system("pause");
                         }else if (limite == 2) {
