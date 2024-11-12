@@ -96,7 +96,7 @@ void PuxarCódigoeProdutos(MYSQL* conn) { // Puxa a tabela de produtos com seus 
     mysql_free_result(res);
 }
 
-void PuxarFuncionarios(MYSQL* conn) {
+void PuxarFuncionarios(MYSQL* conn) { // Puxa a tabela de funcionarios do banco de dados
     MYSQL_ROW row;
     MYSQL_RES* res;
 
@@ -113,15 +113,14 @@ void PuxarFuncionarios(MYSQL* conn) {
         return;
     }
 
-    // Imprimir cabeçalhos das colunas
+    
     printf("%-10s %-30s %-10s %-20s %-25s %-10s\n", "ID", "NOME", "IDADE", "TELEFONE", "CARGO", "SALÁRIO");
 
-    // Imprimir linhas de dados
+
     while ((row = mysql_fetch_row(res))) {
         printf("%-10s %-30s %-10s %-20s %-25s R$%-10s\n", row[0], row[1], row[2], row[3], row[4], row[5]);
     }
 
-    // Liberar o resultado
     mysql_free_result(res);
 }
 
@@ -143,10 +142,11 @@ int main() {
     MYSQL_RES* res;
     MYSQL_ROW row;
 
+    // Conectando com o banco de dados mysql    
     char* server = "localhost";
     char* user = "root";
-    char* password = "senha"; // Sua senha
-    char* database = "hortifruti"; // Seu banco de dados
+    char* password = "senha"; 
+    char* database = "hortifruti"; 
 
     conn = mysql_init(NULL);
 
@@ -179,7 +179,7 @@ int main() {
     float preço_kg = 0;
     char query[256];
     
-    do {
+    do { // Menu principal de opçoes
         limite = 0;
         valor_compra = 0;
         total_final = 0;
@@ -189,7 +189,7 @@ int main() {
         scanf_s("%14s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
         ParaMinúsculas(selecionar_opcao);
 
-        if (strcmp(selecionar_opcao, "compra") == 0) {  
+        if (strcmp(selecionar_opcao, "compra") == 0) { // Tela de compras de escolha de produtos 
             system("cls");
             setConsoleColors(14, 0);
             printf("----------ESTAÇÃO DE COMPRA---------     [DIGITE 'RETORNAR' PARA VOLTAR]\n");
@@ -204,11 +204,11 @@ int main() {
                 scanf_s("%19s", selecionar_produto, (unsigned)_countof(selecionar_produto));  
 
               
-                if (strcmp(selecionar_produto, "retornar") == 0) {
+                if (strcmp(selecionar_produto, "retornar") == 0) { // Volta para o menu inicial
                     printf("Retornando ao menu principal...\n");
                     break;  
                 }
-                else if (strcmp(selecionar_produto, "pagamento") == 0) {
+                else if (strcmp(selecionar_produto, "pagamento") == 0) { // Avança para o pagamento e finalização da compra
                     system("cls");
                     setConsoleColors(15, 0);
                     printf("VALOR TOTAL DA COMPRA: R$% .2F\n\n", total_final);
@@ -219,7 +219,7 @@ int main() {
                     scanf_s("%14s", forma_pagamento, (unsigned)_countof(forma_pagamento));
                     ParaMinúsculas(forma_pagamento);
 
-                    if (strcmp(forma_pagamento, "débito") == 0 || strcmp(forma_pagamento, "debito") == 0) {
+                    if (strcmp(forma_pagamento, "débito") == 0 || strcmp(forma_pagamento, "debito") == 0) { // Opção de pagamento debito
                         system("cls");
                         printf("\n");
                         setConsoleColors(15, 0);
@@ -233,7 +233,7 @@ int main() {
                         exit(0);
 
                     }
-                    else if (strcmp(forma_pagamento, "crédito") == 0 || strcmp(forma_pagamento, "credito") == 0) {
+                    else if (strcmp(forma_pagamento, "crédito") == 0 || strcmp(forma_pagamento, "credito") == 0) { // Opção de pagamento crédito
                         system("cls");
                         printf("\n");
                         setConsoleColors(15, 0);
@@ -247,14 +247,14 @@ int main() {
                         exit(0);
 
                     }
-                    else if (strcmp(forma_pagamento, "dinheiro") == 0) {
+                    else if (strcmp(forma_pagamento, "dinheiro") == 0) { // Opção de pagamento em dinheiro
                         system("cls");
                         setConsoleColors(15, 0);
                         printf("Digite quanto entregou, para o cálculo do troco:\n");
                         fflush(stdin);
                         scanf_s("%f", &dinheiro_entregue);
                         troco = dinheiro_entregue - total_final;
-                        if (troco < 0) {
+                        if (troco < 0) { // Calculos de troco para confirmação de pagamento aprovado ou não
                             system("cls");
                             setConsoleColors(4, 0);
                             printf("Valor insuficiente:\nCompra cancelada\n");
@@ -285,7 +285,7 @@ int main() {
                 
                 int codigo_produto = atoi(selecionar_produto);
 
-                sprintf_s(query, sizeof(query), "SELECT NOME, VALOR_KG FROM PRODUTOS WHERE CODE = %d", codigo_produto);
+                sprintf_s(query, sizeof(query), "SELECT NOME, VALOR_KG FROM PRODUTOS WHERE CODE = %d", codigo_produto); // teste para conferir o código de produto digitado com algum localizado no banco de dados
                 if (mysql_query(conn, query)) {
                     fprintf(stderr, "Erro na consulta: %s\n", mysql_error(conn));  
                     continue;  
@@ -298,7 +298,7 @@ int main() {
                     
                     strcpy_s(nome_produto, sizeof(nome_produto), row[0]);
 
-                    preço_kg = atof(row[1]);  
+                    preço_kg = atof(row[1]); // Puxa o valor localizado no campo VALOR_KG para realizar o calculo da compra
 
                     preço_kg = round(preço_kg * 100) / 100.0;
 
@@ -319,9 +319,9 @@ int main() {
             } while (1);  
 
         }
-        else if (strcmp(selecionar_opcao, "encerrar") == 0) {  
+        else if (strcmp(selecionar_opcao, "encerrar") == 0) {  // Encerra o sistema
             exit(1);
-        }else if (strcmp(selecionar_opcao, "produtos") == 0) {
+        }else if (strcmp(selecionar_opcao, "produtos") == 0) { // Tela de produtos para funcionarios com permissão
             do {
                 system("cls");
                 setConsoleColors(15, 0);
@@ -337,14 +337,14 @@ int main() {
                 a = acesso;
                 a1 = acesso2;
                 printf("\n");
-                if (acesso == 1 && acesso2 == 1) {
+                if (acesso == 1 && acesso2 == 1) { // Senha e logins corretos entra no sistema de produtos
                     setConsoleColors(10, 0);
                     printf("Acesso permitido\n");
                     system("pause");
                     system("cls");
                     setConsoleColors(14, 0);
                     printf("-------------PRODUTOS ATUAIS------------\n");
-                    PuxarCódigoeProdutos(conn);
+                    PuxarCódigoeProdutos(conn); // Mostra os produtos existentes cadastrados no sistema
                     printf("\n");
                     do {
                         setConsoleColors(14, 0);
@@ -353,7 +353,7 @@ int main() {
                         ParaMinúsculas(selecionar_opcao);
                         setConsoleColors(15, 0);
 
-                        if (strcmp(selecionar_opcao, "s") == 0) {
+                        if (strcmp(selecionar_opcao, "s") == 0) { // Teste para saber se o funcionario deseja adicionar mais produtos
                             system("cls");
                             int codigo;
                             char nome_produto[50];
@@ -367,7 +367,7 @@ int main() {
                             setlocale(LC_NUMERIC, "C");
                             printf("Digite o preço por KG do produto que deseja adicionar(utilize '.' ao invés de ','):\n");
                             scanf_s("%f", &preco_kg);
-                            snprintf(query, sizeof(query), "INSERT INTO PRODUTOS (CODE, NOME, VALOR_KG) VALUES (%d, '%s', %.2f)", codigo, nome_produto, preco_kg);
+                            snprintf(query, sizeof(query), "INSERT INTO PRODUTOS (CODE, NOME, VALOR_KG) VALUES (%d, '%s', %.2f)", codigo, nome_produto, preco_kg); // Os dados inseridos são salvos no banco de dados na tabela de produtos
                             setlocale(LC_NUMERIC, locale_atual);
                             printf("Consulta SQL: %s\n", query);
                             if (mysql_query(conn, query)) {
@@ -380,10 +380,10 @@ int main() {
                             system("pause");
                             limite = 3;
                         }
-                        else if (strcmp(selecionar_opcao, "n") == 0) {
+                        else if (strcmp(selecionar_opcao, "n") == 0) { // Teste caso o funcionarios não queira adicionar novos produtos
                             limite = 3;
                         }
-                        else {
+                        else { // Caso o funcionario digite algo que nao seja as opçoes
                             printf("Opção não indentificada: Digite novamente\n");
                             system("pause");
                             limite = 2;
@@ -392,7 +392,7 @@ int main() {
                 }
 
 
-                else if (acesso == 1 && acesso2 == 0) {
+                else if (acesso == 1 && acesso2 == 0) { // Login incorreto, 3 tentativas totais como metodo de segurança contra invasoes
                     setConsoleColors(4, 0);
                     printf("Login incorreto: \n");
                     if (limite == 0) {
@@ -418,7 +418,7 @@ int main() {
                     }
 
                 }
-                else if (acesso == 0 && acesso2 == 1) {
+                else if (acesso == 0 && acesso2 == 1) { // Senha incorreta, 3 tentativas totais como metodo de segurança contra invasoes
                     setConsoleColors(4, 0);
                     printf("Senha incorreta: \n");
                     if (limite == 0) {
@@ -444,7 +444,7 @@ int main() {
                         exit(0);
                     }
                 }
-                else {
+                else { // Login e senha incorretos, 3 tentativas totais como metodo de segurança contra invasoes
                     setConsoleColors(4, 0);
                     printf("Login e Senha incorretos \n");
                     if (limite == 0) {
@@ -475,7 +475,7 @@ int main() {
 
 
         }
-            else if (strcmp(selecionar_opcao, "funcionarios") == 0 || strcmp(selecionar_opcao,"funcionários") == 0) {
+            else if (strcmp(selecionar_opcao, "funcionarios") == 0 || strcmp(selecionar_opcao,"funcionários") == 0) { // Caso o funcionario queira acessar a tela de "FUNCIONARIOS"
                 do {
                     system("cls");
                     setConsoleColors(15, 0);
@@ -493,20 +493,20 @@ int main() {
                     
 
                     printf("\n");
-                    if (acesso == 1 && acesso2 == 1) {
+                    if (acesso == 1 && acesso2 == 1) { // Login e senha corretos leva para dentro do sistema de funcionarios
                         setConsoleColors(10, 0);
                         printf("Acesso permitido\n");
                         system("pause");
                         system("cls");
                         setConsoleColors(14, 0);
                         printf("----------FUNCIONARIOS ATUAIS------------\n");
-                        PuxarFuncionarios(conn);
+                        PuxarFuncionarios(conn); // Mostra os funcionarios cadastrados no sistema
                         printf("\n");
                         do {
                             setConsoleColors(14, 0);
                             printf("----------ADICIONAR NOVOS FUNCIONÁRIOS------------\nDigite 'S' para adicionar e 'N' para retornar ao menu\n");
                             scanf_s("%2s", selecionar_opcao, (unsigned)_countof(selecionar_opcao));
-                            ParaMinúsculas(selecionar_opcao);
+                            ParaMinúsculas(selecionar_opcao); 
                             setConsoleColors(15, 0);
 
                             if (strcmp(selecionar_opcao, "s") == 0) {
@@ -547,7 +547,7 @@ int main() {
                                 scanf_s("%f", &salario);
                                 while (getchar() != '\n');
 
-                                snprintf(query, sizeof(query), "INSERT INTO FUNCIONARIOS (NOME, IDADE, TELEFONE, CARGO, SALARIO) VALUES ('%s', %d, '%s', '%s', %.2f)", nome, idade, telefone, cargo, salario);
+                                snprintf(query, sizeof(query), "INSERT INTO FUNCIONARIOS (NOME, IDADE, TELEFONE, CARGO, SALARIO) VALUES ('%s', %d, '%s', '%s', %.2f)", nome, idade, telefone, cargo, salario); // Adiciona na tabela do banco de dados "FUNCIONARIOS" os dados inseridos do novo funcionario
 
                                 setlocale(LC_NUMERIC, locale_atual);
                                 printf("Consulta SQL: %s\n", query);
