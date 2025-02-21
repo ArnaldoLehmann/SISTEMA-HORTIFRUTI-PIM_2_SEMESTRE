@@ -1,0 +1,18 @@
+# Arquivos do usuário (configuração local, não precisa versionar)
+*.user
+*.vcxproj.user
+
+# Arquivos temporários do Visual Studio
+*.sdf
+*.ipch
+.vscode/
+build/
+
+# Arquivos compilados
+*.exe
+*.obj
+*.dll
+
+# Arquivos do MySQL Workbench (se estiver usando)
+*.bak
+*.log
